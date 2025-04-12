@@ -39,4 +39,22 @@ export class ReportService {
        	u.name, TO_CHAR(o."createdAt", 'YYYY-MM') DESC
         `;
   }
+
+  async getProductSalesReport() {
+    return this.prisma.$queryRaw<any[]>`
+      SELECT
+        p.name AS product_name,
+        p.id AS product_id,
+        SUM(oi.quantity)::INTEGER AS total_quantity_sold,
+        ROUND(SUM(oi.price)::numeric, 2) AS total_sales
+      FROM
+        "Product" p
+      JOIN
+        "OrderItem" oi ON p.id = oi."productId"
+      GROUP BY
+        p.id, p.name
+      ORDER BY
+        total_quantity_sold DESC
+        `;
+  }
 }

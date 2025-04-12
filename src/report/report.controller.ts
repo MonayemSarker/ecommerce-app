@@ -19,7 +19,7 @@ export class ReportController {
   @ApiOperation({ summary: 'Get monthly sales report' })
   @ApiResponse({
     status: 200,
-    description: 'Monthly sales report retrieved',
+    description: 'Monthly sales report',
   })
   async getMonthlySalesReport() {
     return this.reportService.getMonthlySalesReport();
@@ -29,9 +29,19 @@ export class ReportController {
   @ApiOperation({ summary: 'Get user-wise order report' })
   @ApiResponse({
     status: 200,
-    description: 'User order report retrieved',
+    description: 'User-wise order report',
   })
   async getUserOrderReport() {
     return this.reportService.getUserOrderReport();
+  }
+
+  @Get('product-sales')
+  @ApiOperation({ summary: 'Get product-wise sales report' })
+  @ApiResponse({
+    status: 200,
+    description: 'Product-wise sales report',
+  })
+  async getProductSalesReport() {
+    return this.reportService.getProductSalesReport();
   }
 }
