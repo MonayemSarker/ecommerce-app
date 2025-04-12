@@ -44,10 +44,12 @@ async function main() {
   // Seed Orders and Order Items
   for (const user of users) {
     for (let i = 0; i < 5; i++) {
+      const createdAt = faker.date.recent({ days: 180 });
       const order = await prisma.order.create({
         data: {
           userId: user.id,
           totalAmount: 0,
+          createdAt: createdAt,
         },
       });
 
