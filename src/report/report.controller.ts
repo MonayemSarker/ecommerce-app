@@ -24,4 +24,14 @@ export class ReportController {
   async getMonthlySalesReport() {
     return this.reportService.getMonthlySalesReport();
   }
+
+  @Get('user-orders')
+  @ApiOperation({ summary: 'Get user-wise order report' })
+  @ApiResponse({
+    status: 200,
+    description: 'User order report retrieved',
+  })
+  async getUserOrderReport() {
+    return this.reportService.getUserOrderReport();
+  }
 }

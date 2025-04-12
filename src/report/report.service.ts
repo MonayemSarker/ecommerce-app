@@ -20,4 +20,23 @@ export class ReportService {
         TO_CHAR(o."createdAt", 'YYYY-MM') DESC
     `;
   }
+
+  async getUserOrderReport() {
+    return this.prisma.$queryRaw<any[]>`
+      SELECT
+        u.name AS user_name,
+        u.id AS user_id,
+        TO_CHAR(o."createdAt", 'YYYY-MM') AS month,
+        COUNT(o.id)::INTEGER AS total_orders,
+        ROUND(SUM("totalAmount")::numeric, 2) AS total_sales
+      FROM
+        "User" u
+      LEFT JOIN
+        "Order" o ON u.id = o."userId"
+      GROUP BY
+        u.name, u.id, TO_CHAR(o."createdAt", 'YYYY-MM')
+      ORDER BY
+       	u.name, TO_CHAR(o."createdAt", 'YYYY-MM') DESC
+        `;
+  }
 }
