@@ -2,10 +2,14 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { LoginUserDto } from './dto/user-login.dto';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+  ) {}
 
   async getAllUsers() {
     return this.prisma.user.findMany();
@@ -30,14 +34,13 @@ export class UserService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // // Generate JWT token
-    // const payload = {
-    //   sub: user.id,
-    //   email: user.email,
-    // };
+    const payload = {
+      sub: user.id,
+      email: user.email,
+    };
 
     return {
-      // access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload),
       user: {
         id: user.id,
         name: user.name,
