@@ -91,15 +91,16 @@ An e-commerce backend built with NestJS, Prisma, PostgreSQL, and Redis.
 
 | Method | Route           | Description  |
 |--------|------------------|--------------|
-| GET    | `/users`         | All Users    |
-| POST   | `/users/login`   | User Login   |
+| GET    | `/users`  | All Users    |
+| POST   | `/users/login`| User Login   |
+| POST   | `/users/validate-session` | Validate Session |
 
 ### Report Routes
 
 | Method | Route                        | Description            |
 |--------|------------------------------|------------------------|
-| GET    | `/reports/monthly-sales`     | Monthly Sales Report   |
-| GET    | `/reports/user-orders`       | User Order Report      |
-| GET    | `/reports/product-sales`     | Product Sales Report   |
+| GET    | `/reports/monthly-sales`| Monthly Sales Report   |
+| GET    | `/reports/user-orders`  | User Order Report      |
+| GET    | `/reports/product-sales`| Product Sales Report   |
 
 ---
