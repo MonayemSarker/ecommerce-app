@@ -8,6 +8,7 @@ import {
 } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/user-login.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { UserSessionValidateDto } from './dto/user-session-validate.dto';
 
 @ApiTags('Users')
 @Controller('user')
@@ -33,5 +34,10 @@ export class UserController {
   })
   async login(@Body() loginUserDto: LoginUserDto) {
     return this.userService.login(loginUserDto);
+  }
+
+  @Post('validate-session')
+  async validateSession(@Body() body: UserSessionValidateDto) {
+    return this.userService.validateSession(body.sessionId);
   }
 }

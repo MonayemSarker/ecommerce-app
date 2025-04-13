@@ -8,7 +8,7 @@ async function bootstrap() {
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('E-Commerce API')
-    .setDescription('Comprehensive E-Commerce API Documentation')
+    .setDescription('Manush Tech E-Commerce API Documentation')
     .setVersion('1.0')
     .addBearerAuth(
       {

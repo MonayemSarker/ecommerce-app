@@ -1,14 +1,18 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { LoginUserDto } from './dto/user-login.dto';
-import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { AuthService } from 'src/auth/auth.service';
+import { SessionService } from 'src/session/session.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private prisma: PrismaService,
-    private jwtService: JwtService,
+    private authService: AuthService,
+    private sessionService: SessionService,
+    @Inject(CACHE_MANAGER) private readonly cache: Cache,
   ) {}
 
   async getAllUsers() {
@@ -16,36 +20,10 @@ export class UserService {
   }
 
   async login(loginUserDto: LoginUserDto) {
-    const user = await this.prisma.user.findUnique({
-      where: { email: loginUserDto.email },
-    });
+    return this.authService.login(loginUserDto.email, loginUserDto.password);
+  }
 
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-
-    // Compare passwords
-    const isPasswordValid = await bcrypt.compare(
-      loginUserDto.password,
-      user.password,
-    );
-
-    if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-
-    const payload = {
-      sub: user.id,
-      email: user.email,
-    };
-
-    return {
-      access_token: this.jwtService.sign(payload),
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
-    };
+  async validateSession(session_id: string) {
+    return this.sessionService.getSession(session_id);
   }
 }
