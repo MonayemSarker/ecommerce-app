@@ -8,12 +8,7 @@ An e-commerce backend built with NestJS, Prisma, PostgreSQL, and Redis.
 - Docker Compose
 - Node.js (v18+)
 
-> **Note:**
-> - You need to have a **PostgreSQL server** running locally at **`localhost:5433`** while setting up the project with docker.
-> - The project includes **Swagger API documentation** for testing and exploring APIs.
->   Swagger setup code is commented out by default. You can **uncomment it to use Swagger locally** during development.
-
-
+---
 
 ## Project Setup
 
@@ -27,7 +22,6 @@ An e-commerce backend built with NestJS, Prisma, PostgreSQL, and Redis.
 
 2. Create a `.env` file
     ```bash
-    touch .env
     cp .env.example .env
     ```
 
@@ -42,46 +36,43 @@ An e-commerce backend built with NestJS, Prisma, PostgreSQL, and Redis.
 
 ---
 
-### Manual Project Setup (without Docker)
+## Guidelines
+> After running the project using Docker, follow the steps below to interact with the API and test authentication-based features.
+---
 
-1. Clone the repository
-    ```bash
-    git clone https://github.com/MonayemSarker/ecommerce-app.git
-    cd ecommerce-app
-    ```
+### Access the Swagger API Docs
 
-2. Create a `.env` file
-    ```bash
-    touch .env
-    cp .env.example .env
-    ```
+Once the server is up, open your browser and go to: **`http://localhost:3000/api-docs`**. This will open the Swagger UI where you can explore all available API routes.
 
-3. **Comment out all Swagger setup code** in `main.ts` and all other files
 
-4. Install dependencies
-    ```bash
-    pnpm install
-    ```
+### Get All Users
 
-5. Generate Prisma Client
-    ```bash
-    npx prisma generate
-    ```
+1. In the Swagger UI, locate the endpoint: **`/user/all`**
+2. Click on the "Try it out" button.
+3. Click on the "Execute" button.
+4. The response will contain a list of all users. Pick one user from the list to continue authorization.
 
-6. Push schema to database
-    ```bash
-    npx prisma db push
-    ```
 
-7. Seed the database
-    ```bash
-    pnpm run prisma:seed
-    ```
+### Login to Get Access Token
 
-8. Start the development server
-    ```bash
-    pnpm run start:dev
-    ```
+1. Find and open the endpoint: **`/user/login`**
+2. Click on the "Try it out" button.
+3. Enter the email and password(12345) of the user you picked in the previous step.
+4. Click on the "Execute" button.
+5. The response will contain an access token and session id. Copy the token and use it to authenticate at the top right of the Swagger UI "Authorize" button.
+
+### Generate Reports
+
+With authentication enabled, you can now use any **report generation APIs** available in the Swagger UI.
+
+### Validate Session
+
+1. Copy the `sessionId` returned from the login response.
+2. Find the endpoint: **`/user/validate-session`**
+3. Click on the "Try it out" button.
+4. Enter the `sessionId` in the `sessionId` field.
+5. Click on the "Execute" button.
+6. The response will contain a message indicating whether the session is valid or not.
 
 ---
 
