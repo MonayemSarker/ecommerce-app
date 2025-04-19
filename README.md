@@ -24,6 +24,7 @@ An e-commerce backend built with NestJS, Prisma, PostgreSQL, and Redis.
     ```bash
     cp .env.example .env
     ```
+    >Customize variables as needed
 
 3. Build and start the project
     ```bash

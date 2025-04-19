@@ -3,9 +3,9 @@ services:
   postgres:
     image: postgres:13
     environment:
-      POSTGRES_DB: ecommerce
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - '5433:5432'
     volumes:
@@ -23,9 +23,9 @@ services:
     ports:
       - '3000:3000'
     environment:
-      - DATABASE_URL=postgresql://postgres:root@postgres:5432/ecommerce?schema=public
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
     depends_on:
       - postgres
       - redis
